@@ -1,9 +1,5 @@
 {
-  "functions": {
-    "api/*.py": {
-      "runtime": "python3.9"
-    }
-  },
+  "version": 2,
   "builds": [
     { "src": "api/main.py", "use": "@vercel/python" }
   ],
@@ -11,3 +7,5 @@
     { "src": "/(.*)", "dest": "api/main.py" }
   ]
 }
+
+
