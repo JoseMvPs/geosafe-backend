@@ -34,33 +34,21 @@ def get_db_connection():
 def root():
     return {"message": "🚀 API de GeoSafe funcionando correctamente en Vercel!"}
 
-# Ejemplo: obtener todos los registros de una tabla
-@app.get("/usuarios")
-def get_usuarios():
-    conn = get_db_connection()
-    cur = conn.cursor()
-    try:
-        cur.execute("SELECT * FROM usuarios;")
-        rows = cur.fetchall()
-        return {"usuarios": rows}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error al obtener usuarios: {e}")
-    finally:
-        cur.close()
-        conn.close()
 
-# Ejemplo: agregar un usuario
-@app.post("/usuarios")
-def add_usuario(nombre: str, email: str):
-    conn = get_db_connection()
-    cur = conn.cursor()
-    try:
-        cur.execute("INSERT INTO usuarios (nombre, email) VALUES (%s, %s) RETURNING id;", (nombre, email))
-        new_id = cur.fetchone()["id"]
-        conn.commit()
-        return {"message": "Usuario agregado con éxito", "id": new_id}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error al agregar usuario: {e}")
-    finally:
-        cur.close()
-        conn.close()
+# Simulando base de datos en memoria
+marcadores = []
+
+class Marker(BaseModel):
+    lat: float
+    lon: float
+    nombre: str
+
+@app.get("/markers")
+def obtener_marcadores():
+    return marcadores
+
+@app.post("/markers")
+def agregar_marcador(marker: Marker):
+    marcadores.append(marker)
+    return {"mensaje": "Marcador agregado correctamente", "marker": marker}
+
