@@ -6,6 +6,11 @@ from .models import Point
 
 app = FastAPI()
 
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -31,3 +36,4 @@ def get_points():
     rows = cur.fetchall()
     conn.close()
     return rows
+
