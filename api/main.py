@@ -52,3 +52,9 @@ def agregar_marcador(marker: Marker):
     marcadores.append(marker)
     return {"mensaje": "Marcador agregado correctamente", "marker": marker}
 
+@app.delete("/markers/{marker_id}")
+def delete_marker(marker_id: int):
+    global markers
+    markers = [m for m in markers if m["id"] != marker_id]
+    return {"status": "deleted"}
+
